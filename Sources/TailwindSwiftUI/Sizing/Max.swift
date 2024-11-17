@@ -64,25 +64,26 @@ public struct Max: ViewModifier {
     }
     
     let maxWidth: CGFloat?
+    let alignment: Alignment
     
     public func body(content: Content) -> some View {
         content
-            .frame(maxWidth: maxWidth)
+            .frame(maxWidth: maxWidth, alignment: alignment)
     }
 }
 
 public extension View {
-    func max(width: Scale) -> some View {
-        modifier(Max(maxWidth: .scale(width)))
+    func max(width: Scale, alignment: Alignment = .center) -> some View {
+        modifier(Max(maxWidth: .scale(width), alignment: alignment))
     }
     
-    func max(width: Max.Scale) -> some View {
-        modifier(Max(maxWidth: width.pixels))
+    func max(width: Max.Scale, alignment: Alignment = .center) -> some View {
+        modifier(Max(maxWidth: width.pixels, alignment: alignment))
     }
 }
 
 public extension ViewModifier where Self == Max {
-    static func max(width: Max.Scale) -> Self {
-        Max(maxWidth: width.pixels)
+    static func max(width: Max.Scale, alignment: Alignment = .center) -> Self {
+        Max(maxWidth: width.pixels, alignment: alignment)
     }
 }
