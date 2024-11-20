@@ -86,7 +86,7 @@ public struct Typography: ViewModifier {
             .font(.system(size: fontSize.fontSize))
             .if(lineHeight != nil, transform: { view in
                 view
-                    .padding(.vertical, (lineHeight! - fontSize.fontSize) / 2)
+//                    .padding(.vertical, (lineHeight! - fontSize.fontSize) / 2)
                     .lineHeight(lineHeight!, fontSize: fontSize.fontSize)
             })
     }

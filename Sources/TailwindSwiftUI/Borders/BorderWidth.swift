@@ -75,6 +75,10 @@ public extension View {
         overlay(EdgeBorder(width: width, edges: edges).fill(content))
     }
     
+    func border(_ content: some ShapeStyle = .black, width: CGFloat = 1, rounded: BorderRadius.Size = .none) -> some View {
+        border(.solid, content, width: width, rounded: rounded)
+    }
+    
     func border(_ style: EdgeBorder.Style, _ content: some ShapeStyle = .black, width: CGFloat = 1, rounded: BorderRadius.Size = .none) -> some View {
         let width = style == .double ? width / 3 : width
         let border = EdgeBorder(width: width, edges: .all, style: style, cornerRadius: rounded.cornerRadius).fill(content)
