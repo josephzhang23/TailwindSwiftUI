@@ -52,16 +52,16 @@ public extension Color {
 
 // Dynamic colors
 public extension Color {
-    init(light: Color, dark: Color) {
+    init(_ any: Color, dark: Color) {
         #if canImport(UIKit)
-        self.init(light: UIColor(light), dark: UIColor(dark))
+        self.init(any: UIColor(any), dark: UIColor(dark))
         #else
-        self.init(light: NSColor(light), dark: NSColor(dark))
+        self.init(any: NSColor(any), dark: NSColor(dark))
         #endif
     }
 
     #if canImport(UIKit)
-    init(light: UIColor, dark: UIColor) {
+    private init(any: UIColor, dark: UIColor) {
         #if os(watchOS)
         // watchOS does not support light mode / dark mode
         // Per Apple HIG, prefer dark-style interfaces
@@ -70,14 +70,14 @@ public extension Color {
         self.init(uiColor: UIColor(dynamicProvider: { traits in
             switch traits.userInterfaceStyle {
             case .light, .unspecified:
-                return light
+                return any
 
             case .dark:
                 return dark
 
             @unknown default:
                 assertionFailure("Unknown userInterfaceStyle: \(traits.userInterfaceStyle)")
-                return light
+                return any
             }
         }))
         #endif
@@ -85,14 +85,14 @@ public extension Color {
     #endif
 
     #if canImport(AppKit)
-    init(light: NSColor, dark: NSColor) {
+    private init(any: NSColor, dark: NSColor) {
         self.init(nsColor: NSColor(name: nil, dynamicProvider: { appearance in
             switch appearance.name {
             case .aqua,
                  .vibrantLight,
                  .accessibilityHighContrastAqua,
                  .accessibilityHighContrastVibrantLight:
-                return light
+                return any
 
             case .darkAqua,
                  .vibrantDark,
@@ -102,7 +102,7 @@ public extension Color {
 
             default:
                 assertionFailure("Unknown appearance: \(appearance.name)")
-                return light
+                return any
             }
         }))
     }
